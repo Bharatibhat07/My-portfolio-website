@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 230 25% 7%;
+    --foreground: 220 20% 90%;
+
+    --card: 230 25% 10%;
+    --card-foreground: 220 20% 90%;
+
+    --popover: 230 25% 10%;
+    --popover-foreground: 220 20% 90%;
+
+    --primary: 260 80% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 60% 20%;
+    --secondary-foreground: 220 20% 90%;
+
+    --muted: 230 20% 15%;
+    --muted-foreground: 220 15% 55%;
+
+    --accent: 200 90% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 230 20% 18%;
+    --input: 230 20% 18%;
+    --ring: 260 80% 65%;
+
+    --radius: 0.75rem;
+
+    --neon-purple: 260 80% 65%;
+    --neon-blue: 200 90% 55%;
+    --neon-pink: 330 80% 60%;
+    --glass: 230 25% 12%;
+    --glass-border: 230 20% 22%;
+
+    --sidebar-background: 230 25% 7%;
+    --sidebar-foreground: 220 20% 90%;
+    --sidebar-primary: 260 80% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 230 20% 15%;
+    --sidebar-accent-foreground: 220 20% 90%;
+    --sidebar-border: 230 20% 18%;
+    --sidebar-ring: 260 80% 65%;
+
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 230 25% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 230 25% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 230 25% 12%;
+
+    --primary: 260 80% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 230 20% 92%;
+    --secondary-foreground: 230 25% 12%;
+
+    --muted: 230 15% 93%;
+    --muted-foreground: 230 10% 40%;
+
+    --accent: 200 90% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 230 15% 85%;
+    --input: 230 15% 85%;
+    --ring: 260 80% 55%;
+
+    --neon-purple: 260 80% 55%;
+    --neon-blue: 200 90% 45%;
+    --neon-pink: 330 80% 50%;
+    --glass: 230 15% 95%;
+    --glass-border: 230 15% 80%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 230 25% 12%;
+    --sidebar-primary: 260 80% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 230 15% 93%;
+    --sidebar-accent-foreground: 230 25% 12%;
+    --sidebar-border: 230 15% 85%;
+    --sidebar-ring: 260 80% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply relative overflow-hidden rounded-xl border border-glass-border;
+    background: hsla(var(--glass), 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-500;
+  }
+  .glass-card-hover:hover {
+    border-color: hsl(var(--neon-purple) / 0.4);
+    box-shadow: 0 0 30px hsl(var(--neon-purple) / 0.15), inset 0 0 30px hsl(var(--neon-purple) / 0.05);
+    transform: translateY(-4px);
+  }
+
+  .neon-text {
+    background: linear-gradient(135deg, hsl(var(--neon-purple)), hsl(var(--neon-blue)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .neon-glow {
+    text-shadow: 0 0 20px hsl(var(--neon-purple) / 0.5), 0 0 40px hsl(var(--neon-blue) / 0.3);
+  }
+
+  .neon-border {
+    border: 1px solid hsl(var(--neon-purple) / 0.3);
+    box-shadow: 0 0 15px hsl(var(--neon-purple) / 0.1), inset 0 0 15px hsl(var(--neon-purple) / 0.05);
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, hsl(230 25% 5%), hsl(250 30% 10%), hsl(220 30% 8%));
+  }
+
+  .light .gradient-bg {
+    background: linear-gradient(135deg, hsl(0 0% 97%), hsl(230 20% 96%), hsl(260 15% 97%));
+  }
+
+  .light .section-gradient {
+    background: radial-gradient(ellipse at 50% 0%, hsl(var(--neon-purple) / 0.05) 0%, transparent 60%);
+  }
+
+  .section-gradient {
+    background: radial-gradient(ellipse at 50% 0%, hsl(var(--neon-purple) / 0.08) 0%, transparent 60%);
+  }
+
+  .btn-neon {
+    @apply relative px-6 py-3 rounded-lg font-heading font-semibold text-sm tracking-wide transition-all duration-300;
+    background: linear-gradient(135deg, hsl(var(--neon-purple)), hsl(var(--neon-blue)));
+    color: hsl(0 0% 100%);
+    box-shadow: 0 0 20px hsl(var(--neon-purple) / 0.3);
+  }
+  .btn-neon:hover {
+    box-shadow: 0 0 30px hsl(var(--neon-purple) / 0.5), 0 0 60px hsl(var(--neon-blue) / 0.2);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-neon {
+    @apply relative px-6 py-3 rounded-lg font-heading font-semibold text-sm tracking-wide transition-all duration-300;
+    border: 1px solid hsl(var(--neon-purple) / 0.5);
+    color: hsl(var(--neon-purple));
+  }
+  .btn-outline-neon:hover {
+    background: hsl(var(--neon-purple) / 0.1);
+    box-shadow: 0 0 20px hsl(var(--neon-purple) / 0.2);
+    transform: translateY(-2px);
+  }
+
+  .profile-glow {
+    box-shadow: 0 0 40px hsl(var(--neon-purple) / 0.4), 0 0 80px hsl(var(--neon-blue) / 0.2);
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animation-delay-200 { animation-delay: 0.2s; }
+  .animation-delay-400 { animation-delay: 0.4s; }
+  .animation-delay-600 { animation-delay: 0.6s; }
+  .animation-delay-800 { animation-delay: 0.8s; }
+}
