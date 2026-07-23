@@ -524,9 +524,11 @@ const toUiCertificate = (
 
 
   const credentialUrl =
-    backendCredentialUrl
+  backendCredentialUrl
+    ? backendCredentialUrl.startsWith("/api")
       ? `${import.meta.env.VITE_API_URL}${backendCredentialUrl}`
-      : undefined;
+      : backendCredentialUrl
+    : undefined;
 
 
   const certificateFile =
@@ -643,8 +645,9 @@ const AchievementsSection = () => {
 
   const showCertificateFile = (filePath: string) => {
 
-    const previewUrl = buildPreviewUrl(filePath);
-
+    const previewUrl = filePath.startsWith("/api")
+      ? buildPreviewUrl(filePath)
+      : filePath;
 
     if (isPdfFile(previewUrl)) {
       window.open(
@@ -737,9 +740,11 @@ const AchievementsSection = () => {
 
 
       const backendUrl =
-        typeof backendCertificate?.credentialUrl === "string"
-          ? `${import.meta.env.VITE_API_URL}${backendCertificate.credentialUrl}`
-          : undefined;
+  typeof backendCertificate?.credentialUrl === "string"
+    ? backendCertificate.credentialUrl.startsWith("/api")
+      ? `${import.meta.env.VITE_API_URL}${backendCertificate.credentialUrl}`
+      : backendCertificate.credentialUrl
+    : undefined;
 
 
 
