@@ -4,7 +4,10 @@ import { toast } from "sonner";
 import emailjs from '@emailjs/browser';
 
 // Initialize EmailJS with your public key
-emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "your_public_key_here");
+const emailJsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+if (emailJsPublicKey) {
+  emailjs.init(emailJsPublicKey);
+}
 
 const contacts = [
   { icon: Mail, label: "bharatibhat39@gmail.com", href: "mailto:bharatibhat39@gmail.com" },
@@ -14,7 +17,7 @@ const contacts = [
   { icon: Instagram, label: "Instagram", href: "https://instagram.com/bharati_bhat_07" },
 ];
 
-const API_URL = "http://localhost:5000/api/contacts";
+const API_URL = "/api/contacts";
 
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -23,34 +26,45 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
+
     try {
-      // Send email via EmailJS
-      const emailParams = {
-        from_name: form.name,
-        from_email: form.email,
-        message: form.message,
-        to_name: "Bharati S Bhat",
-      };
-
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID || "your_service_id",
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "your_template_id",
-        emailParams
-      );
-
-      // Save to backend (MongoDB)
-      const res = await fetch(API_URL, {
+      const saveResponse = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error("Failed to save message");
 
-      toast.success("Message sent successfully!");
+      if (!saveResponse.ok) {
+        const errorText = await saveResponse.text();
+        throw new Error(errorText || "Failed to save message to the database");
+      }
+
+      console.log("Message saved to database");
+
+      try {
+        const emailParams = {
+          from_name: form.name,
+          from_email: form.email,
+          message: form.message,
+          to_name: "Bharati S Bhat",
+        };
+
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID || "your_service_id",
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "your_template_id",
+          emailParams
+        );
+        console.log("Email sent successfully");
+        toast.success("Message saved and sent successfully!");
+      } catch (emailError) {
+        console.error("Email send failed after saving to database:", emailError);
+        toast.success("Message saved to the database. Email delivery could not be completed.");
+      }
+
       setForm({ name: "", email: "", message: "" });
     } catch (err) {
-      console.error(err);
-      toast.error("Failed to send message. Please try again.");
+      console.error("Main error:", err);
+      toast.error("Failed to save and send message. Please try again.");
     } finally {
       setSending(false);
     }
@@ -71,8 +85,8 @@ const ContactSection = () => {
               <a
                 key={c.label}
                 href={c.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={c.href.startsWith("http") ? "_blank" : undefined}
+                rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="flex items-center gap-4 text-foreground/70 hover:text-neon-purple transition-colors group"
               >
                 <c.icon size={18} className="text-neon-purple" />

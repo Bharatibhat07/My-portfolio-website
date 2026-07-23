@@ -58,7 +58,7 @@ const HeroSection = () => {
             and problem solving. Building real-world applications one line at a time.
           </p>
           <div className="flex gap-4 justify-center lg:justify-start animate-fade-up animation-delay-800">
-            <a href="#projects" className="btn-neon">View Projects</a>
+            <a href="/resume.pdf" target="_blank" rel="noreferrer" className="btn-neon">View CV</a>
             <a href="#contact" className="btn-outline-neon">Contact Me</a>
           </div>
         </div>

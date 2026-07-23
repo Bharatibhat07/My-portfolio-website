@@ -8,8 +8,19 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    watch: {
+      // Avoid EBUSY crashes on Windows when PDF files are temporarily locked.
+      ignored: ["**/public/**/*.pdf"],
+      usePolling: true,
+    },
     hmr: {
       overlay: false,
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5001',
+        changeOrigin: true,
+      },
     },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),

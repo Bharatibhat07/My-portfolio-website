@@ -1,4 +1,4 @@
-import { User, Code, BookOpen, GraduationCap, Target, Crosshair } from "lucide-react";
+import { GraduationCap, Target, Crosshair } from "lucide-react";
 
 const AboutSection = () => (
   <section id="about" className="py-24 relative section-gradient">
@@ -14,7 +14,7 @@ const AboutSection = () => (
           </p>
           <p>
             My journey spans from learning Java and strengthening Data Structures & Algorithms
-            through LeetCode to building full-stack web applications. Currently in my 6th semester
+            through LeetCode to building full-stack web applications. I am currently in my 6th semester
             at SDM Institute of Technology.
           </p>
           <p>

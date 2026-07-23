@@ -5,16 +5,29 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio')
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+app.locals.dbConnected = false;
+const mongoUri = process.env.MONGODB_URI && process.env.MONGODB_URI.trim();
+
+if (mongoUri) {
+  mongoose.connect(mongoUri)
+    .then(() => {
+      app.locals.dbConnected = true;
+      console.log('MongoDB connected');
+    })
+    .catch(err => {
+      app.locals.dbConnected = false;
+      console.warn('MongoDB unavailable, running without database:', err.message);
+    });
+} else {
+  console.log('MongoDB skipped: no MONGODB_URI provided');
+}
 
 // Routes
 app.use('/api/contacts', require('./routes/contacts'));
