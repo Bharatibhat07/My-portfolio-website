@@ -643,26 +643,18 @@ const AchievementsSection = () => {
 
 
 
+  
   const showCertificateFile = (filePath: string) => {
+  const previewUrl = buildPreviewUrl(filePath);
 
-    const previewUrl = filePath.startsWith("/api")
-      ? buildPreviewUrl(filePath)
-      : filePath;
+  if (isPdfFile(previewUrl)) {
+    window.open(previewUrl, "_blank", "noopener,noreferrer");
+    return;
+  }
 
-    if (isPdfFile(previewUrl)) {
-      window.open(
-        previewUrl,
-        "_blank",
-        "noopener,noreferrer"
-      );
-
-      return;
-    }
-
-
-    setSelectedCertificate(previewUrl);
-    setSelectedCertificateType("image");
-  };
+  setSelectedCertificate(previewUrl);
+  setSelectedCertificateType("image");
+};
 
 
 
