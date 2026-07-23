@@ -32,6 +32,10 @@ if (mongoUri) {
 // Routes
 app.use('/api/contacts', require('./routes/contacts'));
 app.use('/api/certificates', require('./routes/certificates'));
+// Backend health check route
+app.get("/", (req, res) => {
+  res.send("Portfolio Backend API is running successfully 🚀");
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
